@@ -19,4 +19,6 @@ Route::get('/', function () {
 });
 
 Route::get('/register', [RegisterUserController::class, 'index'])->name('register-user.index');
+Route::view('/account', 'addAccount');
 Route::post('/register', [RegisterUserController::class, 'store'])->name('register-user.store');
+Route::post('/submit-form', [RegisterUserController::class, 'submitForm']);
