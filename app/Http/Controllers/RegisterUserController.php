@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterUserController extends Controller
 {
@@ -34,14 +35,11 @@ class RegisterUserController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-
-//         Handle image upload
+        // Handle image upload
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images');
         }
-
-        dd($imagePath);
 
         // Create a new user
         $user = new User([
@@ -49,14 +47,15 @@ class RegisterUserController extends Controller
             'last_name' => $validatedData['last_name'],
             'gender' => $validatedData['gender'],
             'country' => $validatedData['country'],
-            'hobbies' => $validatedData['hobbies'],
+//            'hobbies' => $validatedData['hobbies'],
             'about' => $validatedData['about'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
+            'image' => $imagePath,
         ]);
-//
-        User::create($user);
 
-        return response()->json(['message' => 'Form submitted successfully']);
+        $user->save();
+
+        return response()->json(['message' => 'Form submitted successfully', 'user' => $user]);
     }
 }

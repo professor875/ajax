@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('gender');
             $table->string('country');
-            $table->string('hobbies');
+            $table->string('hobbies')->nullable();
             $table->string('about');
             $table->string('image')->nullable();
             $table->string('email')->unique();
